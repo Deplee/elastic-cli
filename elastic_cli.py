@@ -786,7 +786,7 @@ class ElasticsearchCLI(cmd2.Cmd):
             table.add_column("Приоритет", style="blue")
             table.add_column("Паттерн индексов", style="yellow")
             
-            for template in data.get('index_templates', []):
+            for template in data.get('_index_templates', []):
                 template_name = template.get('name', 'N/A')
                 template_body = template.get('index_template', {})
                 patterns = ', '.join(template_body.get('index_patterns', []))
