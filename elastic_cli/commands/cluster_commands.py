@@ -141,13 +141,7 @@ class ClusterCommands(BaseCommand):
             disk_percent = ((total_disk - free_disk) / total_disk * 100) if total_disk > 0 else 0
             
             # Роли узла
-            roles = []
-            if node_data.get('settings', {}).get('node', {}).get('data', False):
-                roles.append('data')
-            if node_data.get('settings', {}).get('node', {}).get('master', False):
-                roles.append('master')
-            if node_data.get('settings', {}).get('node', {}).get('ingest', False):
-                roles.append('ingest')
+            roles = node_data.get('roles', [])
             
             table.add_row(
                 node_data.get('name', 'N/A'),
