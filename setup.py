@@ -8,7 +8,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="elastic-cli",
-    version="1.0.0",
+    version="1.0.1",
     author="izuna",
     author_email="dkapitsev@gmail.com",
     description="Интерактивный CLI-инструмент для управления Elasticsearch кластерами",
