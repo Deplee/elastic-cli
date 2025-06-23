@@ -342,10 +342,25 @@ templates show logs-template
 
 ```
 elastic-cli/
-├── elastic_cli.py      # Основной файл CLI
-├── setup.py           # Конфигурация установки
-├── requirements.txt    # Зависимости Python
-└── README.md          # Документация
+├── elastic_cli/              # Основной пакет
+│   ├── __init__.py          # Инициализация пакета
+│   ├── __main__.py          # Точка входа для запуска как модуля
+│   ├── cli.py               # Основной CLI класс
+│   ├── config.py            # Управление конфигурацией
+│   ├── connection.py        # Управление подключениями
+│   ├── utils.py             # Утилиты
+│   └── commands/            # Модули команд
+│       ├── __init__.py      # Инициализация команд
+│       ├── base.py          # Базовый класс команд
+│       ├── cluster_commands.py    # Команды кластера
+│       ├── index_commands.py      # Команды индексов
+│       ├── ilm_commands.py        # Команды ILM
+│       ├── template_commands.py   # Команды шаблонов
+│       └── snapshot_commands.py   # Команды снапшотов
+├── elastic_cli.py           # Файл обратной совместимости
+├── setup.py                # Конфигурация установки
+├── requirements.txt         # Зависимости Python
+└── README.md               # Документация
 ```
 
 Конфигурация сохраняется в:
