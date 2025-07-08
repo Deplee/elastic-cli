@@ -1,7 +1,3 @@
-"""
-Команды для Elasticsearch CLI
-"""
-
 from .cluster_commands import ClusterCommands
 from .index_commands import IndexCommands
 from .ilm_commands import ILMCommands

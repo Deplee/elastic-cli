@@ -1,7 +1,3 @@
-"""
-Команды для работы с ILM политиками Elasticsearch
-"""
-
 import json
 from rich.table import Table
 from rich.panel import Panel
@@ -11,16 +7,8 @@ from .base import BaseCommand
 
 
 class ILMCommands(BaseCommand):
-    """Команды для управления ILM политиками"""
     
     def do_ilm(self, arg):
-        """Управление ILM политиками.
-Использование:
-- ilm list: Показать все ILM политики в кластере.
-- ilm show <policy_name>: Показать JSON определение конкретной политики.
-- ilm explain <index_name>: Показать текущий статус и фазу ILM для конкретного индекса.
-"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]📜 Управление ILM политиками[/bold blue]
@@ -96,7 +84,6 @@ Index Lifecycle Management (ILM) позволяет автоматически �
                     border_style="blue"
                 ))
             else:
-                # Подсказка пользователю
                 self.console.print(f"[yellow]Подсказка: не найдена политика с именем '{policy_name}'.[/yellow]")
                 self.console.print(f"[yellow]Возможно, вы хотели узнать статус для индекса? Попробуйте: [bold]ilm explain {policy_name}[/bold][/yellow]")
         
@@ -109,7 +96,6 @@ Index Lifecycle Management (ILM) позволяет автоматически �
             if data:
                 index_info = data.get('indices', {}).get(index_name, {})
                 
-                # Создаем красивую таблицу для вывода
                 table = Table(title=f"🌡️ Статус ILM для индекса [bold]{index_name}[/bold]", box=box.ROUNDED)
                 table.add_column("Параметр", style="cyan", no_wrap=True)
                 table.add_column("Значение", style="magenta")

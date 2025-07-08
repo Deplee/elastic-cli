@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
-"""
-Elasticsearch CLI - Интерактивный инструмент для управления Elasticsearch
-"""
-
 import os
 import sys
 from dotenv import load_dotenv
 
-# Rich для красивого вывода
 from rich.console import Console
 from rich.panel import Panel
 
-# cmd2 для интерактивной оболочки
 import cmd2
 
-# Загружаем переменные окружения
 load_dotenv()
 
 from .config import ConfigManager
@@ -29,7 +22,6 @@ from .commands import (
 
 
 class ElasticsearchCLI(cmd2.Cmd):
-    """Интерактивный CLI для управления Elasticsearch"""
     
     def __init__(self):
         super().__init__()
@@ -37,27 +29,23 @@ class ElasticsearchCLI(cmd2.Cmd):
         self.prompt = "elastic-cli> "
         self.config_file = os.path.expanduser("~/.elastic-cli/config.yml")
         
-        # Инициализируем менеджеры
+
         self.config_manager = ConfigManager(self.config_file)
         self.connection = ElasticsearchConnection()
         
-        # Инициализируем команды - передаем self как cli
         self.cluster_commands = ClusterCommands(self)
         self.index_commands = IndexCommands(self)
         self.ilm_commands = ILMCommands(self)
         self.template_commands = TemplateCommands(self)
         self.snapshot_commands = SnapshotCommands(self)
         
-        # Загружаем конфигурацию
         self.config_manager.load_config()
         
-        # Восстанавливаем текущий контекст
         current_context = self.config_manager.get_current_context()
         if current_context:
             self._switch_context(current_context)
     
     def format_bytes(self, size, decimals=2):
-        """Форматирует размер в байтах в читаемый вид"""
         if not isinstance(size, (int, float)) or size == 0:
             return "0 Bytes"
         import math
@@ -68,11 +56,9 @@ class ElasticsearchCLI(cmd2.Cmd):
         return f"{round(size / math.pow(k, i), dm)} {sizes[i]}"
     
     def make_request(self, endpoint: str, method: str = 'GET', data: dict = None):
-        """Делегирует запрос к connection"""
         return self.connection.make_request(endpoint, method, data)
     
     def _update_prompt(self):
-        """Обновляет промпт с учетом текущего контекста"""
         current_context = self.config_manager.get_current_context()
         if current_context:
             self.prompt = f"({current_context}) elastic-cli> "
@@ -80,7 +66,6 @@ class ElasticsearchCLI(cmd2.Cmd):
             self.prompt = "(no context) elastic-cli> "
 
     def _switch_context(self, context_name: str) -> bool:
-        """Переключает активный контекст и проверяет подключение."""
         context = self.config_manager.get_context(context_name)
         if not context:
             self.console.print(f"[red]Контекст '{context_name}' не найден.[/red]")
@@ -105,7 +90,6 @@ class ElasticsearchCLI(cmd2.Cmd):
             return False
 
     def preloop(self):
-        """Выполняется перед запуском основного цикла команд."""
         intro_text = """
 [bold blue]╔══════════════════════════════════════════════════════════════╗[/bold blue]
 [bold blue]║                    [white]Elasticsearch CLI[/white]                         ║[/bold blue]
@@ -117,11 +101,9 @@ class ElasticsearchCLI(cmd2.Cmd):
 """
         self.console.print(Panel(intro_text, title="Добро пожаловать", border_style="blue", expand=False))
     
-    # ==================== КОМАНДЫ ====================
+
     
     def do_connect(self, arg):
-        """Добавить новый контекст подключения: connect <context_name>"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🔗 Подключение к Elasticsearch кластеру[/bold blue]
@@ -169,7 +151,6 @@ class ElasticsearchCLI(cmd2.Cmd):
         username = Prompt.ask("Имя пользователя (или Enter для пропуска)")
         password = Prompt.ask("Пароль", password=True) if username else ""
         
-        # Временно устанавливаем для проверки
         self.connection.set_connection(url, username, password)
 
         with self.console.status("Проверка подключения..."):
@@ -186,8 +167,6 @@ class ElasticsearchCLI(cmd2.Cmd):
                 self.console.print("[red]Не удалось подключиться к кластеру. Контекст не сохранен.[/red]")
 
     def do_context(self, arg):
-        """Управление контекстами подключений"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🗂️ Управление контекстами подключений[/bold blue]
@@ -279,57 +258,44 @@ class ElasticsearchCLI(cmd2.Cmd):
             self.console.print("[yellow]Доступные команды: list, use, delete, show.[/yellow]")
     
     def do_health(self, arg):
-        """Показать здоровье кластера"""
         self.cluster_commands.do_health(arg)
     
     def do_nodes(self, arg):
-        """Показать информацию об узлах кластера"""
         self.cluster_commands.do_nodes(arg)
     
     def do_indices(self, arg):
-        """Управление индексами"""
         self.index_commands.do_indices(arg)
     
     def do_shards(self, arg):
-        """Показать информацию о шардах"""
         self.cluster_commands.do_shards(arg)
     
     def do_tasks(self, arg):
-        """Показать активные задачи"""
         self.cluster_commands.do_tasks(arg)
     
     def do_snapshots(self, arg):
-        """Управление снапшотами"""
         self.snapshot_commands.do_snapshots(arg)
     
     def do_settings(self, arg):
-        """Показать настройки кластера"""
         self.cluster_commands.do_settings(arg)
     
     def do_ilm(self, arg):
-        """Управление ILM политиками"""
         self.ilm_commands.do_ilm(arg)
     
     def do_templates(self, arg):
-        """Управление шаблонами индексов"""
         self.template_commands.do_templates(arg)
     
     def do_quit(self, arg):
-        """Выход из CLI"""
         self.console.print("[yellow]До свидания! 👋[/yellow]")
         return True
     
     def do_exit(self, arg):
-        """Выход из CLI"""
         return self.do_quit(arg)
     
     def do_EOF(self, arg):
-        """Выход по Ctrl+D"""
         return self.do_quit(arg)
 
 
 def main():
-    """Главная функция"""
     try:
         cli = ElasticsearchCLI()
         cli.cmdloop()

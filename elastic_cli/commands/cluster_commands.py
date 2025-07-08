@@ -1,7 +1,3 @@
-"""
-Команды для работы с кластером Elasticsearch
-"""
-
 import json
 from typing import Dict
 from rich.console import Console
@@ -14,11 +10,8 @@ from .base import BaseCommand
 
 
 class ClusterCommands(BaseCommand):
-    """Команды для работы с кластером"""
     
     def do_health(self, arg):
-        """Показать здоровье кластера"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🏥 Здоровье кластера Elasticsearch[/bold blue]
@@ -56,7 +49,7 @@ class ClusterCommands(BaseCommand):
         if not data:
             return
         
-        # Создаем красивую таблицу
+
         table = Table(title="🏥 Здоровье кластера", box=box.ROUNDED)
         table.add_column("Параметр", style="cyan", no_wrap=True)
         table.add_column("Значение", style="magenta")
@@ -79,8 +72,7 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_nodes(self, arg):
-        """Показать информацию об узлах кластера"""
-        # Обработка команды help
+
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🖥️ Информация об узлах кластера[/bold blue]
@@ -134,13 +126,11 @@ class ClusterCommands(BaseCommand):
             cpu_percent = stats.get('cpu', {}).get('percent', 0)
             mem_percent = stats.get('mem', {}).get('used_percent', 0)
             
-            # Расчет использования диска
             fs_stats = node_data.get('fs', {})
             total_disk = fs_stats.get('total', {}).get('total_in_bytes', 0)
             free_disk = fs_stats.get('total', {}).get('free_in_bytes', 0)
             disk_percent = ((total_disk - free_disk) / total_disk * 100) if total_disk > 0 else 0
             
-            # Роли узла
             roles = node_data.get('roles', [])
             
             table.add_row(
@@ -155,8 +145,6 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_shards(self, arg):
-        """Показать информацию о шардах"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🔗 Информация о шардах[/bold blue]
@@ -198,7 +186,6 @@ class ClusterCommands(BaseCommand):
         if not data:
             return
         
-        # Группируем по статусу
         status_groups = {}
         for shard in data:
             status = shard.get('state', 'unknown')
@@ -236,8 +223,6 @@ class ClusterCommands(BaseCommand):
             self.console.print(table)
     
     def do_tasks(self, arg):
-        """Показать активные задачи"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]⚡ Активные задачи в кластере[/bold blue]
@@ -306,8 +291,6 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_settings(self, arg):
-        """Показать настройки кластера"""
-        # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]⚙️ Настройки кластера[/bold blue]

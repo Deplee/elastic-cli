@@ -1,7 +1,3 @@
-"""
-Команды для работы с шаблонами индексов Elasticsearch
-"""
-
 import json
 from rich.table import Table
 from rich.panel import Panel
@@ -11,14 +7,8 @@ from .base import BaseCommand
 
 
 class TemplateCommands(BaseCommand):
-    """Команды для управления шаблонами индексов"""
     
     def do_templates(self, arg):
-        """Управление шаблонами индексов.
-Использование:
-- templates list: Показать все шаблоны индексов.
-- templates show <template_name>: Показать JSON определение конкретного шаблона.
-"""
         # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """

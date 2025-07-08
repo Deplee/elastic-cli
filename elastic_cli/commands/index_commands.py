@@ -1,7 +1,3 @@
-"""
-Команды для работы с индексами Elasticsearch
-"""
-
 import json
 from rich.table import Table
 from rich.panel import Panel
@@ -12,18 +8,8 @@ from .base import BaseCommand
 
 
 class IndexCommands(BaseCommand):
-    """Команды для управления индексами"""
     
     def do_indices(self, arg):
-        """Управление индексами.
-Использование:
-- indices: показать все индексы
-- indices <имя_индекса>: показать детальную информацию
-- indices <команда> <имя_индекса>: выполнить команду (delete, open, close, settings, forcemerge)
-- indices forcemerge <имя_индекса> <тип>: выполнить forcemerge
-  - тип: segments - для max_num_segments=N & waiting for completion=false
-  - тип: expunge - для only_expunge_deletes=true & waiting for completion=false
-"""
         # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
@@ -91,7 +77,6 @@ class IndexCommands(BaseCommand):
             
             self.console.print(table)
         else:
-            # Обработка команд для индексов
             parts = arg.split()
             command = parts[0]
             
@@ -138,7 +123,6 @@ class IndexCommands(BaseCommand):
                     
                     if merge_type == "segments":
                         if Confirm.ask(f"Выполнить forcemerge с max_num_segments для индекса '{index_name}'?"):
-                            # Запрашиваем количество сегментов
                             max_segments = Prompt.ask("Количество сегментов (N)", default="1")
                             try:
                                 max_segments = int(max_segments)
@@ -158,12 +142,10 @@ class IndexCommands(BaseCommand):
                         self.console.print(f"[red]Неизвестный тип forcemerge: '{merge_type}'[/red]")
                         self.console.print("[yellow]Доступные типы: segments, expunge[/yellow]")
             else:
-                # Если не команда, то это имя индекса
                 index_name = command
                 self._show_index_info(index_name)
     
     def _show_index_info(self, index_name: str):
-        """Показывает детальную информацию об одном индексе."""
         with self.console.status(f"Загрузка информации для индекса [bold]{index_name}[/bold]..."):
             index_data = self.cli.make_request(f"/{index_name}")
             index_stats = self.cli.make_request(f"/{index_name}/_stats/docs,store")

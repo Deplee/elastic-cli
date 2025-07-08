@@ -1,22 +1,8 @@
-"""
-Утилиты для Elasticsearch CLI
-"""
-
 import math
 from typing import Union
 
 
 def format_bytes(size: Union[int, float], decimals: int = 2) -> str:
-    """
-    Форматирует размер в байтах в человекочитаемый вид
-    
-    Args:
-        size: Размер в байтах
-        decimals: Количество знаков после запятой
-        
-    Returns:
-        Отформатированная строка с размером
-    """
     if not isinstance(size, (int, float)) or size == 0:
         return "0 Bytes"
     
@@ -28,17 +14,6 @@ def format_bytes(size: Union[int, float], decimals: int = 2) -> str:
 
 
 def truncate_text(text: str, max_length: int = 50, suffix: str = "...") -> str:
-    """
-    Обрезает текст до указанной длины
-    
-    Args:
-        text: Исходный текст
-        max_length: Максимальная длина
-        suffix: Суффикс для обрезанного текста
-        
-    Returns:
-        Обрезанный текст
-    """
     if len(text) <= max_length:
         return text
     return text[:max_length - len(suffix)] + suffix

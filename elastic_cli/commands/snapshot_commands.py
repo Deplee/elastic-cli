@@ -1,7 +1,3 @@
-"""
-Команды для работы со снапшотами Elasticsearch
-"""
-
 import json
 from rich.table import Table
 from rich.panel import Panel
@@ -10,10 +6,8 @@ from .base import BaseCommand
 
 
 class SnapshotCommands(BaseCommand):
-    """Команды для управления снапшотами"""
     
     def do_snapshots(self, arg):
-        """Управление снапшотами"""
         # Обработка команды help
         if arg in ["-h", "--help", "help"]:
             help_text = """
