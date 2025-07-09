@@ -8,7 +8,7 @@ from .base import BaseCommand
 class SnapshotCommands(BaseCommand):
     
     def do_snapshots(self, arg):
-        # Обработка команды help
+        """Управление снапшотами Elasticsearch."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]📸 Управление снапшотами[/bold blue]
@@ -43,7 +43,6 @@ class SnapshotCommands(BaseCommand):
             return
 
         if not arg:
-            # Показать репозитории
             data = self.cli.make_request("/_snapshot")
             if not data:
                 return

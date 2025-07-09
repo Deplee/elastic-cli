@@ -9,7 +9,7 @@ from .base import BaseCommand
 class TemplateCommands(BaseCommand):
     
     def do_templates(self, arg):
-        # Обработка команды help
+        """Управление шаблонами индексов."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]📄 Управление шаблонами индексов[/bold blue]

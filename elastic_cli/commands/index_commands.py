@@ -10,7 +10,7 @@ from .base import BaseCommand
 class IndexCommands(BaseCommand):
     
     def do_indices(self, arg):
-        # Обработка команды help
+        """Управление индексами Elasticsearch."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]📚 Управление индексами Elasticsearch[/bold blue]
@@ -46,7 +46,6 @@ class IndexCommands(BaseCommand):
             return
 
         if not arg:
-            # Показать список индексов
             data = self.cli.make_request("/_cat/indices?format=json&v")
             if not data:
                 return

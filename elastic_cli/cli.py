@@ -104,6 +104,7 @@ class ElasticsearchCLI(cmd2.Cmd):
 
     
     def do_connect(self, arg):
+        """Подключение к Elasticsearch кластеру. Создает новый контекст подключения."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🔗 Подключение к Elasticsearch кластеру[/bold blue]
@@ -167,6 +168,7 @@ class ElasticsearchCLI(cmd2.Cmd):
                 self.console.print("[red]Не удалось подключиться к кластеру. Контекст не сохранен.[/red]")
 
     def do_context(self, arg):
+        """Управление контекстами подключений. Позволяет переключаться между различными кластерами."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🗂️ Управление контекстами подключений[/bold blue]
@@ -258,40 +260,52 @@ class ElasticsearchCLI(cmd2.Cmd):
             self.console.print("[yellow]Доступные команды: list, use, delete, show.[/yellow]")
     
     def do_health(self, arg):
+        """Показать состояние здоровья кластера Elasticsearch."""
         self.cluster_commands.do_health(arg)
     
     def do_nodes(self, arg):
+        """Показать информацию об узлах кластера."""
         self.cluster_commands.do_nodes(arg)
     
     def do_indices(self, arg):
+        """Управление индексами Elasticsearch."""
         self.index_commands.do_indices(arg)
     
     def do_shards(self, arg):
+        """Показать информацию о шардах в кластере."""
         self.cluster_commands.do_shards(arg)
     
     def do_tasks(self, arg):
+        """Показать активные задачи в кластере."""
         self.cluster_commands.do_tasks(arg)
     
     def do_snapshots(self, arg):
+        """Управление снапшотами Elasticsearch."""
         self.snapshot_commands.do_snapshots(arg)
     
     def do_settings(self, arg):
+        """Показать настройки кластера."""
         self.cluster_commands.do_settings(arg)
     
     def do_ilm(self, arg):
+        """Управление ILM политиками (Index Lifecycle Management)."""
         self.ilm_commands.do_ilm(arg)
     
     def do_templates(self, arg):
+        """Управление шаблонами индексов."""
         self.template_commands.do_templates(arg)
     
     def do_quit(self, arg):
+        """Выход из приложения."""
         self.console.print("[yellow]До свидания! 👋[/yellow]")
         return True
     
     def do_exit(self, arg):
+        """Выход из приложения (алиас для quit)."""
         return self.do_quit(arg)
     
     def do_EOF(self, arg):
+        """Выход из приложения при нажатии Ctrl+D."""
         return self.do_quit(arg)
 
 

@@ -9,6 +9,7 @@ from .base import BaseCommand
 class ILMCommands(BaseCommand):
     
     def do_ilm(self, arg):
+        """Управление ILM политиками (Index Lifecycle Management)."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]📜 Управление ILM политиками[/bold blue]

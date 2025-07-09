@@ -12,6 +12,7 @@ from .base import BaseCommand
 class ClusterCommands(BaseCommand):
     
     def do_health(self, arg):
+        """Показать состояние здоровья кластера Elasticsearch."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🏥 Здоровье кластера Elasticsearch[/bold blue]
@@ -72,7 +73,7 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_nodes(self, arg):
-
+        """Показать информацию об узлах кластера."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🖥️ Информация об узлах кластера[/bold blue]
@@ -145,6 +146,7 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_shards(self, arg):
+        """Показать информацию о шардах в кластере."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]🔗 Информация о шардах[/bold blue]
@@ -223,6 +225,7 @@ class ClusterCommands(BaseCommand):
             self.console.print(table)
     
     def do_tasks(self, arg):
+        """Показать активные задачи в кластере."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]⚡ Активные задачи в кластере[/bold blue]
@@ -291,6 +294,7 @@ class ClusterCommands(BaseCommand):
         self.console.print(table)
     
     def do_settings(self, arg):
+        """Показать настройки кластера."""
         if arg in ["-h", "--help", "help"]:
             help_text = """
 [bold blue]⚙️ Настройки кластера[/bold blue]
