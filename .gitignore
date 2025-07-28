@@ -1,0 +1,3 @@
+elastic_cli.egg-info/*
+elastic_cli/__pycache__/*
+elastic_cli/commands/__pycache__/*
